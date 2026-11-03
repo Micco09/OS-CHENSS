@@ -48,77 +48,75 @@ void displayboard(){
     }
 }
 
-void move_white(int row, char col)
-{
-    int n;
-    // moves pieces for white
-    /*check whether black king is under attack*/
-    /*call check() if under attack*/
-    if (n = 0 /*check if move is valid*/)
-    {
-        /*continue*/
-    }
-    else
-    {
-        /*deny the move and make the player input another move*/
-        /*probably call the function again??*/
-    }
-}
+// void move_white(int row, char col)
+// {
+//     int n;
+//     // moves pieces for white
+//     /*check whether black king is under attack*/
+//     /*call check() if under attack*/
+//     if (n = 0 /*check if move is valid*/)
+//     {
+//         /*continue*/
+//     }
+//     else
+//     {
+//         /*deny the move and make the player input another move*/
+//         /*probably call the function again??*/
+//     }
+// }
 
-void move_black(int row, char col)
-{
-    int n;
-    // moves pieces for black
-    /*check whether white king is under attack*/
-    /*call check() if under attack*/
-    if (n = 0 /*check if move is valid*/)
-    {
-        /*continue;*/
-    }
-    else
-    {
-        /*deny the move and make the player input another move*/
-        /*probably call the function again??*/
-    }
-}
+// void move_black(int row, char col)
+// {
+//     int n;
+//     // moves pieces for black
+//     /*check whether white king is under attack*/
+//     /*call check() if under attack*/
+//     if (n = 0 /*check if move is valid*/)
+//     {
+//         /*continue;*/
+//     }
+//     else
+//     {
+//         /*deny the move and make the player input another move*/
+//         /*probably call the function again??*/
+//     }
+// }
 
-void turn()
-{
-    /*turn counter*/
-}
+// void turn()
+// {
+//     /*turn counter*/
+// }
 
-void roll()
-{
-    // dice roll when trying to take a piece
-}
+// void roll()
+// {
+//     // dice roll when trying to take a piece
+// }
 
-void take()
-{
-    /*call roll(), check who has the higher roll before determining an outcome*/
-}
+// void take()
+// {
+//     /*call roll(), check who has the higher roll before determining an outcome*/
+// }
 
-void roll_outcome()
-{
-    /*booleans for loss, draw, sacrifice?? then call sa take()*/
-}
+// void roll_outcome()
+// {
+//     /*booleans for loss, draw, sacrifice?? then call sa take()*/
+// }
 
-void check()
-{
-    /*give checked player their turn to move if they have a valid move*/
-    /*call checkmate()*/
-}
+// void check()
+// {
+//     /*give checked player their turn to move if they have a valid move*/
+//     /*call checkmate()*/
+// }
 
-void checkmate()
-{
-    /*checks whether the player who's checked had any available moves*/
-    /*if they dont, ends the game and with the current player getting the win*/
-}
+// void checkmate()
+// {
+//     /*checks whether the player who's checked had any available moves*/
+//     /*if they dont, ends the game and with the current player getting the win*/
+// }
 
 int main(void)
 {
     /*dae pa ako sigurado sa part na ni, nag fofocus muna ako sa mga function*/
-    int row;
-    char col;
 
     displayboard();
 
