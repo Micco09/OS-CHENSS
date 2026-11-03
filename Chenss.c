@@ -48,48 +48,15 @@ void displayboard(){
     }
 }
 
-void move_white(int row, char col)
-{
-    int n;
-    // moves pieces for white
-    /*check whether black king is under attack*/
-    /*call check() if under attack*/
-    if (n = 0 /*check if move is valid*/)
-    {
-        /*continue*/
-    }
-    else
-    {
-        /*deny the move and make the player input another move*/
-        /*probably call the function again??*/
-    }
-}
-
-void move_black(int row, char col)
-{
-    int n;
-    // moves pieces for black
-    /*check whether white king is under attack*/
-    /*call check() if under attack*/
-    if (n = 0 /*check if move is valid*/)
-    {
-        /*continue;*/
-    }
-    else
-    {
-        /*deny the move and make the player input another move*/
-        /*probably call the function again??*/
-    }
-}
-
-void turn()
-{
-    /*turn counter*/
-}
-
-void roll()
-{
-    // dice roll when trying to take a piece
+int input (const char *prompt){
+    int r;
+    int c;
+    printf("%s", prompt);
+    if (scanf("%d %c", &r, &c) !=2 ) return -1;
+    r-=8;
+    c-=1;
+    if (r < 0 || r > 7 || c < 0 || c > 7) return -1;
+    return r*8+c;
 }
 
 void take()
@@ -97,10 +64,6 @@ void take()
     /*call roll(), check who has the higher roll before determining an outcome*/
 }
 
-void roll_outcome()
-{
-    /*booleans for loss, draw, sacrifice?? then call sa take()*/
-}
 
 void check()
 {
