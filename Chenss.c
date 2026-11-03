@@ -19,6 +19,10 @@
 #define King_B 'k'
 #define Empty ' '   
 
+#define WHITE 1
+#define BLACK 0
+int turn = WHITE; /*1 if turn belongs to white, 0 if black*/
+
 static char board[8][8] = {
     {Rook_B, Knight_B, Bishop_B, Queen_B, King_B, Bishop_B, Knight_B, Rook_B},
     {Pawn_B, Pawn_B, Pawn_B, Pawn_B, Pawn_B, Pawn_B, Pawn_B, Pawn_B},
@@ -29,6 +33,7 @@ static char board[8][8] = {
     {Pawn_W, Pawn_W, Pawn_W, Pawn_W, Pawn_W, Pawn_W, Pawn_W, Pawn_W},
     {Rook_W, Knight_W, Bishop_W, Queen_W, King_W, Bishop_W, Knight_W,Rook_W}
 };
+
 
 void displayboard(){
     printf("  a b c d e f g h\n");
@@ -115,19 +120,12 @@ int main(void)
     int row;
     char col;
 
-    disp_chess_board();
+    displayboard();
 
     /*code when moving a piece*/
-    if (row == 0 /*bool*/)
-    {
-        move_white(row, col);
-    }
-    else
-    {
-        move_black(row, col);
-    }
 
     /*code when taking a piece*/
+
     /*code when rolling*/
 
     return 0;
