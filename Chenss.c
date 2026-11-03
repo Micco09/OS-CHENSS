@@ -4,25 +4,43 @@
 #include <ctype.h>
 
 /*focus muna sa base mechanics kang chess bago iimplement ang whole rng thing*/
-void disp_chess_board()
-{
-    static char board[8][8];
-    static const char Pawn_W = 'P';
-    static const char Pawn_B = 'p';
-    static const char Rook_W = 'R';
-    static const char Rook_B = 'r';
-    static const char Knight_W = 'N';
-    static const char Knight_B = 'n';
-    static const char Bishop_W = 'B';
-    static const char Bishop_B = 'b';
-    static const char Queen_W = 'Q';
-    static const char Queen_B = 'q';
-    static const char King_W = 'K';
-    static const char King_B = 'k';
-    static const char Empty = ' ';
-    static const char Border = '|';
-    static const char Line = '-';
-    static const char Space = ' ';
+
+#define Pawn_W 'P'
+#define Pawn_B 'p'
+#define Rook_W 'R'
+#define Rook_B 'r'
+#define Knight_W 'N'
+#define Knight_B 'n'
+#define Bishop_W 'B'
+#define Bishop_B 'b'
+#define Queen_W 'Q'
+#define Queen_B 'q'
+#define King_W 'K'
+#define King_B 'k'
+#define Empty ' '   
+
+static char board[8][8] = {
+    {Rook_B, Knight_B, Bishop_B, Queen_B, King_B, Bishop_B, Knight_B, Rook_B},
+    {Pawn_B, Pawn_B, Pawn_B, Pawn_B, Pawn_B, Pawn_B, Pawn_B, Pawn_B},
+    {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty},
+    {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty},
+    {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty},
+    {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty},
+    {Pawn_W, Pawn_W, Pawn_W, Pawn_W, Pawn_W, Pawn_W, Pawn_W, Pawn_W},
+    {Rook_W, Knight_W, Bishop_W, Queen_W, King_W, Bishop_W, Knight_W,Rook_W}
+};
+
+void displayboard(){
+    printf("  a b c d e f g h\n");
+    for (int i = 0; i < 8; i++)
+    {
+        printf("%d ", 8 - i);
+        for (int j = 0; j < 8; j++)
+        {
+            printf("%c ", board[i][j]);
+        }
+        printf("\n");
+    }
 }
 
 void move_white(int row, char col)
