@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
-/*focus muna sa base mechanics kang chess bago iimplement ang whole rng thing*/
+#include <time.h>
 
 #define Pawn 1
 #define Rook 2
@@ -18,7 +17,18 @@ int color[8][8];
 
 #define WHITE 1
 #define BLACK 0
-int turn = WHITE; /*1 if turn belongs to white, 0 if black*/
+int turn = WHITE;
+
+int roll_d20(void)
+{
+    int range = RAND_MAX - (RAND_MAX % 20);
+    int roll;
+    do
+    {
+        roll = rand();
+    } while (roll >= range);
+    return roll % 20 + 1;
+}
 
 void init_board(void)
 {
@@ -76,18 +86,6 @@ void displayboard(void)
     }
     printf("  a b c d e f g h\n\n");
 }
-
-// static char board[8][8] = {
-//     {Rook_B, Knight_B, Bishop_B, Queen_B, King_B, Bishop_B, Knight_B, Rook_B},
-//     {Pawn_B, Pawn_B, Pawn_B, Pawn_B, Pawn_B, Pawn_B, Pawn_B, Pawn_B},
-//     {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty},
-//     {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty},
-//     {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty},
-//     {Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty},
-//     {Pawn_W, Pawn_W, Pawn_W, Pawn_W, Pawn_W, Pawn_W, Pawn_W, Pawn_W},
-//     {Rook_W, Knight_W, Bishop_W, Queen_W, King_W, Bishop_W, Knight_W,Rook_W}
-// };
-
 
 int input(const char *prompt)
 {
@@ -404,6 +402,54 @@ int move(void)
         return 0;
     }
 
+    /* Restore the board after validating the move before resolving any capture. */
+    board[fromRow][fromCol] = piece;
+    color[fromRow][fromCol] = movingColor;
+    board[toRow][toCol] = savedDestPiece;
+    color[toRow][toCol] = savedDestColor;
+
+    if (savedDestPiece != Empty)
+    {
+        int attackerRoll = roll_d20();
+        int defenderRoll = roll_d20();
+        printf("Capture roll: %s rolls %d; %s rolls %d.\n",
+               movingColor == WHITE ? "WHITE" : "BLACK", attackerRoll,
+               movingColor == WHITE ? "BLACK" : "WHITE", defenderRoll);
+
+        if (attackerRoll > defenderRoll)
+        {
+            printf("%s wins the capture roll and takes the piece.\n",
+                   movingColor == WHITE ? "WHITE" : "BLACK");
+            board[toRow][toCol] = piece;
+            color[toRow][toCol] = movingColor;
+            board[fromRow][fromCol] = Empty;
+            color[fromRow][fromCol] = Empty;
+        }
+        else if (attackerRoll < defenderRoll)
+        {
+            printf("%s wins the capture roll. The attacking piece is lost; "
+                   "the target stays in place.\n",
+                   movingColor == WHITE ? "BLACK" : "WHITE");
+            board[fromRow][fromCol] = Empty;
+            color[fromRow][fromCol] = Empty;
+        }
+        else
+        {
+            printf("The rolls are tied. Both pieces are lost.\n");
+            board[fromRow][fromCol] = Empty;
+            color[fromRow][fromCol] = Empty;
+            board[toRow][toCol] = Empty;
+            color[toRow][toCol] = Empty;
+        }
+    }
+    else
+    {
+        board[toRow][toCol] = piece;
+        color[toRow][toCol] = movingColor;
+        board[fromRow][fromCol] = Empty;
+        color[fromRow][fromCol] = Empty;
+    }
+
     /* Castling: move the rook alongside king */
     if (piece == King && abs(toCol - fromCol) == 2)
     {
@@ -422,7 +468,8 @@ int move(void)
     }
 
     /* Standard pawn promotion: default promotes to Queen */
-    if (piece == Pawn && ((movingColor == WHITE && toRow == 0) || (movingColor == BLACK && toRow == 7)))
+    if (board[toRow][toCol] == Pawn && color[toRow][toCol] == movingColor &&
+        ((movingColor == WHITE && toRow == 0) || (movingColor == BLACK && toRow == 7)))
     {
         printf("Pawn reached the opposite back rank! Promoted to Queen.\n");
         board[toRow][toCol] = Queen;
@@ -459,6 +506,7 @@ int checkmate(void)
 
 int main(void)
 {
+    srand((unsigned int)time(NULL));
     init_board();
     printf("-------------------------------------\n");
     printf("               CHENSS                \n");
@@ -483,6 +531,24 @@ int main(void)
         if (res == 1)
         {
             displayboard();
+
+            int whiteKingRow = -1;
+            int whiteKingCol = -1;
+            int blackKingRow = -1;
+            int blackKingCol = -1;
+            int whiteKingAlive = find_king(WHITE, &whiteKingRow, &whiteKingCol);
+            int blackKingAlive = find_king(BLACK, &blackKingRow, &blackKingCol);
+            if (!whiteKingAlive || !blackKingAlive)
+            {
+                if (!whiteKingAlive && !blackKingAlive)
+                    printf("Both Kings were lost. The game is a draw.\n");
+                else
+                    printf("%s King was lost. %s wins!\n",
+                           whiteKingAlive ? "BLACK" : "WHITE",
+                           whiteKingAlive ? "WHITE" : "BLACK");
+                break;
+            }
+
             if (checkmate())
                 break;
             check();
